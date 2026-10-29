@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "yueji-geshizhuanhua 标准化输入",
+  "description": "build_xlsx.py 的输入格式。同时也是 parse_brief.py 的输出格式。",
+  "type": "object",
+  "required": ["meta", "acts"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "description": "信息头字段",
+      "properties": {
+        "video_name": {
+          "type": "string",
+          "description": "视频名称（必填）",
+          "examples": ["客户经理金标准脚本的一天", "钱袋守护者"]
+        },
+        "video_topic": {
+          "type": "string",
+          "description": "视频主题（必填）",
+          "examples": ["重空管理/合规反诈", "守护钱袋子，远离洗钱陷阱"]
+        },
+        "shoot_date": {
+          "type": "string",
+          "description": "拍摄时间（YYYY-MM-DD）",
+          "examples": ["2025-02-18"]
+        },
+        "deadline": {
+          "type": "string",
+          "description": "截止时间（YYYY-MM-DD）",
+          "examples": ["2025-02-21"]
+        },
+        "props": {
+          "type": "string",
+          "description": "拍摄道具（逗号分隔）",
+          "examples": ["钱袋子，黑衣人套装，收声", "公文包、PAD、空白借记卡"]
+        },
+        "product": {
+          "type": "string",
+          "description": "主要产品",
+          "examples": ["示例项目"]
+        },
+        "shot_count": {
+          "type": "integer",
+          "description": "镜号数（自动计算）"
+        }
+      }
+    },
+    "acts": {
+      "type": "array",
+      "description": "幕列表（>15 镜时建议加幕）",
+      "items": {
+        "type": "object",
+        "required": ["name", "shots"],
+        "properties": {
+          "name": {
+            "type": ["string", "null"],
+            "description": "幕标题；无幕结构时填 null",
+            "examples": ["第一幕", "1:引入篇", "【篇章一】糖画", null]
+          },
+          "shots": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["shot_no"],
+              "properties": {
+                "shot_no": {
+                  "type": "integer",
+                  "description": "镜号（整数递增，幕行不占镜号）"
+                },
+                "location": {
+                  "type": "string",
+                  "description": "拍摄地点（场景名）",
+                  "examples": ["办公室", "分行楼下小公园"]
+                },
+                "action": {
+                  "type": "string",
+                  "description": "画面内容（第一人称'我'描述动作）"
+                },
+                "camera": {
+                  "type": "string",
+                  "description": "镜头设计（景别+运镜+补充）",
+                  "examples": ["中近景手持", "镜头从办公室拐角处开始，随着脚步摇到面部特写"]
+                },
+                "dialogue": {
+                  "type": "string",
+                  "description": "台词/字幕（演员台词/内心独白/画外音/同期声）"
+                },
+                "duration": {
+                  "type": "string",
+                  "description": "时长（短片：'5s'；长片：'10s (0:00-0:10)'）"
+                },
+                "notes": {
+                  "type": "string",
+                  "description": "备注（合规提示/道具准备/拍摄提示）"
+                },
+                "props": {
+                  "type": "string",
+                  "description": "道具（逗号分隔）"
+                },
+                "sfx": {
+                  "type": "string",
+                  "description": "音效"
+                },
+                "reference": {
+                  "type": "string",
+                  "description": "参考画面（留空或贴图）"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "meta": {
+        "video_name": "钱袋守护者",
+        "video_topic": "守护钱袋子，远离洗钱陷阱",
+        "shoot_date": "2025-02-18",
+        "deadline": "2025-02-21",
+        "props": "钱袋子，黑衣人套装，收声",
+        "product": "示例项目"
+      },
+      "acts": [
+        {
+          "name": "第一幕",
+          "shots": [
+            {
+              "shot_no": 1,
+              "location": "16楼搭建一张桌子",
+              "action": "客厅中，一只手伸向钱袋子（第一视角）",
+              "camera": "中近景手持",
+              "dialogue": "",
+              "duration": "5s",
+              "notes": "心跳、紧张、上升音效",
+              "props": "钱袋子",
+              "sfx": "心跳、紧张、上升音效",
+              "reference": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
